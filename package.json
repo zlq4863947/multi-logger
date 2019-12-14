@@ -1,0 +1,67 @@
+{
+  "name": "multi-logger",
+  "version": "1.0.0",
+  "description": "multi-file logging toolkit",
+  "license": "GPL-3.0-or-later",
+  "engines": {
+    "node": ">= 10.15.0",
+    "npm": ">= 6.4.1",
+    "yarn": ">= 1.12.3"
+  },
+  "scripts": {
+    "bdd": "yarn jest --watch --onlyChanged",
+    "build:prod": "yarn build:preprocess && yarn tsc:app",
+    "build:preprocess": "rm -rf dist",
+    "ci:build-check": "yarn run tsc:app --noEmit",
+    "coverage": "jest -c jest.config.js --collectCoverage",
+    "deploy": "rm -rf deploy && ENV=production yarn rollup",
+    "format": "yarn format:ts",
+    "format:ts": "yarn format:ts:import && prettier --config .prettierrc --write 'src/**/*.ts'",
+    "format:ts:import": "import-sort --write 'src/**/*.ts'",
+    "jest": "jest -c jest.config.js",
+    "lint": "yarn lint:ts",
+    "lint:ts": "tslint -p tsconfig.json -c tslint.json",
+    "rollup": "yarn build:prod && rollup -c rollup.config.js",
+    "prepublishOnly": "yarn build:prod",
+    "start": "node runner.js",
+    "start:dev": "ts-node -r tsconfig-paths/register src/main.ts",
+    "test": "yarn jest --runInBand",
+    "tsc:app": "tsc -p tsconfig.app.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zlq4863947/multi-logger.git"
+  },
+  "author": "zlq4863947@gmail.com",
+  "bugs": {
+    "url": "https://github.com/zlq4863947/multi-logger/issues"
+  },
+  "homepage": "https://github.com/zlq4863947/multi-logger#readme",
+  "devDependencies": {
+    "@types/circular-json": "^0.4.0",
+    "@types/jest": "^24.0.11",
+    "import-sort": "^6.0.0",
+    "import-sort-cli": "^6.0.0",
+    "import-sort-parser-typescript": "^6.0.0",
+    "import-sort-style-module-alias": "^1.0.4",
+    "jest": "^24.5.0",
+    "prettier": "^1.16.4",
+    "ts-jest": "^24.0.0",
+    "ts-node": "^8.0.3",
+    "tsconfig-paths": "^3.8.0",
+    "tslint": "^5.14.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.3.4000",
+    "vrsource-tslint-rules": "^6.0.0",
+    "yarn": "1.13.0"
+  },
+  "dependencies": {
+    "@nestjs/common": "^6.0.3",
+    "circular-json": "^0.5.9",
+    "comma-number": "^2.0.0",
+    "log4js": "^5.1.0",
+    "moment": "^2.24.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.4.0"
+  }
+}
