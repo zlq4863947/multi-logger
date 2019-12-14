@@ -1,17 +1,17 @@
-# multi-logger
+# @zlq4863947/multi-logger
 
 multi-file logging toolkit
 
 ## install
 
 ```
-npm install multi-logger
+npm i @zlq4863947/multi-logger
 ```
 
 ## logging a single file
 
 ```
-import { Logger } from 'multi-logger';
+import { Logger } from '@zlq4863947/multi-logger';
 
 // Initialize and configure the location of the log file
 const logger = new Logger('./log/info.log');
@@ -27,7 +27,7 @@ Each LogCategory is a separate file
 
 default output log file path: {Your project}/logs
 ```
-import { LogCategory, MultiLogger } from 'multi-logger';
+import { LogCategory, MultiLogger } from '@zlq4863947/multi-logger';
 
 const logger = new MultiLogger();
 logger.info({ data: { userUuid: 'xxxxxxxxxx', hoge: 'xxxxxxxxxx' } });

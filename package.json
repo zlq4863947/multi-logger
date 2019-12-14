@@ -1,8 +1,10 @@
 {
-  "name": "multi-logger",
-  "version": "1.0.0",
+  "name": "@zlq4863947/multi-logger",
+  "version": "1.0.2",
   "description": "multi-file logging toolkit",
   "license": "GPL-3.0-or-later",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "engines": {
     "node": ">= 10.15.0",
     "npm": ">= 6.4.1",
