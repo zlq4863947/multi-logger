@@ -1,4 +1,5 @@
-import { LogCategory, MultiLogger } from './multi-logger';
+import { MultiLogger } from './multi-logger';
+import { LogCategory } from './types';
 
 describe('MultiLogger', () => {
   it('should log info', async () => {

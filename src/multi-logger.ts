@@ -1,33 +1,18 @@
 import { Logger as NestLogger } from '@nestjs/common';
 import * as Log from 'log4js';
-import * as moment from 'moment';
 
-import { stringify } from './stringify';
-
-enum LogLevel {
-  Info = 'INFO',
-  Warn = 'WARN',
-  Error = 'Error',
-}
-
-export enum LogCategory {
-  App = 'app',
-  Error = 'Error',
-  Event = 'event',
-}
-
-export interface LoggerContent {
-  data: any;
-  event?: string;
-  category?: LogCategory;
-}
+import { Meter } from './meter';
+import { LogCategory, LogLevel, LoggerContent } from './types';
+import { log, nestLog } from './utils';
 
 export class MultiLogger {
   private readonly appLogger: Log.Logger;
   private readonly eventLogger: Log.Logger;
   private readonly errorLogger: Log.Logger;
+  private readonly meter: Meter;
 
   constructor() {
+    this.meter = new Meter();
     const layout = {
       type: 'messagePassThrough',
     };
@@ -84,27 +69,29 @@ export class MultiLogger {
     }
     this.errorLogger.error(log(LogLevel.Error, content.data, content.event));
   }
-}
 
-function nestLog(fn: (data: any, event?: string) => void, data: any, event?: string): void {
-  const logFn = fn.bind(NestLogger);
-  if (typeof data === 'object') {
-    logFn(JSON.stringify(data), event);
-
-    return;
-  }
-  logFn(data, event);
-}
-
-function log(level: LogLevel, data: any, event?: string): string {
-  const o = {
-    Date: moment().format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
-    Level: level,
-  };
-
-  if (event) {
-    return stringify({ ...o, Event: event, Data: data });
+  meterStart(label: string): void {
+    this.meter.start(label);
   }
 
-  return stringify({ ...o, Data: data });
+  meterEnd(label: string): void {
+    this.meter.end(label);
+  }
+
+  meterEndWithPrint(label: string): void {
+    this.meterEnd(label);
+    const lc: LoggerContent = {
+      data: this.meter.getMeterLog(),
+      category: LogCategory.App,
+    };
+    this.info(lc);
+  }
+
+  meterPrint(): void {
+    const lc: LoggerContent = {
+      data: this.meter.getMeterLog(),
+      category: LogCategory.App,
+    };
+    this.info(lc);
+  }
 }

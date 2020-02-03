@@ -2,19 +2,8 @@ import { Logger as NestLogger } from '@nestjs/common';
 import * as Log from 'log4js';
 import * as moment from 'moment';
 
-import { stringify } from './stringify';
-
-enum LogLevel {
-  Info = 'INFO',
-  Warn = 'WARN',
-  Error = 'Error',
-}
-
-export interface LoggerOptions {
-  filePath?: string;
-  maxLogSize?: number;
-  backups?: number;
-}
+import { LogLevel, LoggerOptions } from './types';
+import { log, nestLog } from './utils';
 
 Date.prototype.toLocaleString = () => moment().format('YYYY-MM-DD HH:mm:ss.SSS');
 
@@ -96,27 +85,4 @@ export class Logger {
 
 export function console(data: any, event?: string): void {
   NestLogger.log(data, event);
-}
-
-function nestLog(fn: (data: any, event?: string) => void, data: any, event?: string): void {
-  const logFn = fn.bind(NestLogger);
-  if (typeof data === 'object') {
-    logFn(JSON.stringify(data), event);
-
-    return;
-  }
-  logFn(data, event);
-}
-
-function log(level: LogLevel, data: any, event?: string): string {
-  const o = {
-    Date: moment().format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
-    Level: level,
-  };
-
-  if (event) {
-    return stringify({ ...o, Event: event, Data: data });
-  }
-
-  return stringify({ ...o, Data: data });
 }
