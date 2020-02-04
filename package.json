@@ -1,6 +1,6 @@
 {
   "name": "@zlq4863947/multi-logger",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "multi-file logging toolkit",
   "license": "GPL-3.0-or-later",
   "main": "dist/index.js",

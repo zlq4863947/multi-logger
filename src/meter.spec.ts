@@ -7,7 +7,7 @@ describe('meter', () => {
     meter.start('init');
     await sleep(3500);
     meter.end('init');
-    console.log(meter.getMeterLog());
-    console.log(meter.getMeterLog());
+    console.log(meter.getMeterLog('init'));
+    console.log(meter.getMeterLog('init'));
   });
 });

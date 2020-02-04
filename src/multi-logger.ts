@@ -80,16 +80,18 @@ export class MultiLogger {
 
   meterEndWithPrint(label: string): void {
     this.meterEnd(label);
+    const logInfo = this.meter.getMeterLog(label);
     const lc: LoggerContent = {
-      data: this.meter.getMeterLog(),
+      data: logInfo ? logInfo : '未找到测量日志',
       category: LogCategory.App,
     };
     this.info(lc);
   }
 
   meterPrint(): void {
+    const logInfos = this.meter.getMeterLogs();
     const lc: LoggerContent = {
-      data: this.meter.getMeterLog(),
+      data: logInfos.length > 0 ? logInfos : '未找到测量日志',
       category: LogCategory.App,
     };
     this.info(lc);

@@ -43,7 +43,25 @@ export class Meter {
     info.cost = `${(info.endTime - info.startTime) / 1000}s`;
   }
 
-  getMeterLog(): MeterLog[] {
+  getMeterLog(label: string): MeterLog | undefined {
+    const logIndex = this.meterInfos.findIndex((o) => o.label === label);
+    if (logIndex !== -1) {
+      const logs = this.meterInfos.splice(logIndex, 1).map((o) => ({
+        label: o.label,
+        start: o.start,
+        end: o.end,
+        cost: o.cost,
+      }));
+
+      if (logs.length > 0) {
+        return logs[0];
+      }
+    }
+
+    return;
+  }
+
+  getMeterLogs(): MeterLog[] {
     const list = this.meterInfos.map((o) => ({
       label: o.label,
       start: o.start,
